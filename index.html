@@ -9,27 +9,37 @@
 body {
     margin: 0;
     height: 100vh;
-    overflow: hidden;
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #ff9ecf, #ffc3e6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-}
-
-.container {
-    margin-top: 70px;
-    position: relative;
-}
-
-h1 {
+    overflow: hidden;
     color: white;
-    font-size: 26px;
 }
 
+/* Общий контейнер */
+.screen {
+    position: absolute;
+    width: 100%;
+    padding: 20px;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Скрытый экран */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95);
+}
+
+/* Кнопки */
 button {
-    padding: 12px 25px;
+    padding: 14px 30px;
     font-size: 18px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
     margin: 10px;
     transition: 0.3s;
@@ -46,38 +56,23 @@ button {
     position: absolute;
 }
 
-#result {
-    display: none;
-    margin-top: 25px;
-    color: white;
-    animation: fadeIn 1s ease-in-out;
-}
-
-#result img {
-    width: 280px;
+/* Фото */
+img {
+    width: 260px;
     border-radius: 20px;
-    margin-top: 15px;
-    box-shadow: 0 0 20px rgba(255,255,255,0.6);
+    margin-top: 20px;
+    box-shadow: 0 0 25px rgba(255,255,255,0.6);
 }
 
+/* Текст */
 .love-text {
     max-width: 90%;
     margin: 15px auto;
     font-size: 18px;
-    line-height: 1.5;
-    animation: fadeInText 2s ease-in-out;
+    line-height: 1.6;
 }
 
-@keyframes fadeIn {
-    from {opacity: 0; transform: scale(0.8);}
-    to {opacity: 1; transform: scale(1);}
-}
-
-@keyframes fadeInText {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
+/* Сердечки */
 .heart {
     position: absolute;
     font-size: 20px;
@@ -92,31 +87,34 @@ button {
 </head>
 <body>
 
-<div class="container">
+<!-- ПЕРВЫЙ ЭКРАН -->
+<div id="questionScreen" class="screen">
     <h1>Моя Кроха 💕<br><br>Будешь ли ты моей валентинкой?</h1>
     <button id="yesBtn">Да 💘</button>
     <button id="noBtn">Нет 😅</button>
+</div>
 
-    <div id="result">
-        <h2>Я знал что ты скажешь да 💖</h2>
+<!-- ВТОРОЙ ЭКРАН -->
+<div id="loveScreen" class="screen hidden">
+    <h1>Я знал что ты скажешь да 💖</h1>
 
-        <div class="love-text">
-            Моя Кроха…<br><br>
-            Ты делаешь мою жизнь светлее, теплее и счастливее.<br>
-            С тобой каждый день становится особенным.<br><br>
-            Спасибо тебе за твою нежность, за твою улыбку и за то,
-            что ты просто есть у меня.<br><br>
-            Я хочу выбирать тебя снова и снова. ❤️
-        </div>
-
-        <img src="kroha.jpg" alt="Любовь">
+    <div class="love-text">
+        Моя Кроха…<br><br>
+        Ты делаешь мою жизнь светлее, теплее и счастливее.<br>
+        С тобой каждый день становится особенным.<br><br>
+        Спасибо тебе за твою нежность, за твою улыбку
+        и за то, что ты просто есть у меня.<br><br>
+        Я хочу выбирать тебя снова и снова. ❤️
     </div>
+
+    <img src="kroha.JPG" alt="Любовь">
 </div>
 
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
-const result = document.getElementById("result");
+const questionScreen = document.getElementById("questionScreen");
+const loveScreen = document.getElementById("loveScreen");
 
 let attempts = 0;
 
@@ -135,9 +133,8 @@ noBtn.addEventListener("click", function() {
 });
 
 yesBtn.addEventListener("click", function() {
-    result.style.display = "block";
-    yesBtn.style.display = "none";
-    noBtn.style.display = "none";
+    questionScreen.classList.add("hidden");
+    loveScreen.classList.remove("hidden");
     createHearts();
 });
 
