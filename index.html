@@ -1,153 +1,185 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Моя Кроха 💖</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя Кроха 💖</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9ecf, #ffc3e6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow-x: hidden;
+            color: white;
+        }
 
-<style>
-body {
-    margin: 0;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #ff9ecf, #ffc3e6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
-    color: white;
-}
+        /* Контейнеры экранов */
+        .screen {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: opacity 0.5s ease;
+        }
 
-/* Общий контейнер */
-.screen {
-    position: absolute;
-    width: 100%;
-    padding: 20px;
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
+        /* Полное скрытие экрана */
+        .hidden {
+            display: none;
+        }
 
-/* Скрытый экран */
-.hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(0.95);
-}
+        /* Заголовки */
+        h1 {
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
 
-/* Кнопки */
-button {
-    padding: 14px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    margin: 10px;
-    transition: 0.3s;
-}
+        /* Кнопки */
+        .btn-container {
+            height: 150px; /* Резервируем место для прыгающей кнопки */
+            position: relative;
+            margin-top: 20px;
+        }
 
-#yesBtn {
-    background: #ff2e82;
-    color: white;
-}
+        button {
+            padding: 15px 35px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
 
-#noBtn {
-    background: #444;
-    color: white;
-    position: absolute;
-}
+        #yesBtn {
+            background: #ff2e82;
+            color: white;
+            z-index: 10;
+        }
 
-/* Фото */
-img {
-    width: 260px;
-    border-radius: 20px;
-    margin-top: 20px;
-    box-shadow: 0 0 25px rgba(255,255,255,0.6);
-}
+        #noBtn {
+            background: white;
+            color: #ff2e82;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
 
-/* Текст */
-.love-text {
-    max-width: 90%;
-    margin: 15px auto;
-    font-size: 18px;
-    line-height: 1.6;
-}
+        /* Фотография */
+        img {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 20px;
+            margin-top: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 6px solid white;
+        }
 
-/* Сердечки */
-.heart {
-    position: absolute;
-    font-size: 20px;
-    animation: fall linear infinite;
-}
+        .love-text {
+            font-size: 18px;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
 
-@keyframes fall {
-    from { transform: translateY(-10vh); }
-    to { transform: translateY(110vh); }
-}
-</style>
+        /* Анимация сердечек */
+        .heart {
+            position: fixed;
+            top: -20px;
+            font-size: 24px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 100;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- ПЕРВЫЙ ЭКРАН -->
-<div id="questionScreen" class="screen">
-    <h1>Моя Кроха 💕<br><br>Будешь ли ты моей валентинкой?</h1>
-    <button id="yesBtn">Да 💘</button>
-    <button id="noBtn">Нет 😅</button>
-</div>
-
-<!-- ВТОРОЙ ЭКРАН -->
-<div id="loveScreen" class="screen hidden">
-    <h1>Я знал что ты скажешь да 💖</h1>
-
-    <div class="love-text">
-        Моя Кроха…<br><br>
-        Ты делаешь мою жизнь светлее, теплее и счастливее.<br>
-        С тобой каждый день становится особенным.<br><br>
-        Спасибо тебе за твою нежность, за твою улыбку
-        и за то, что ты просто есть у меня.<br><br>
-        Я хочу выбирать тебя снова и снова. ❤️
+    <div id="questionScreen" class="screen">
+        <h1>Моя Кроха 💕<br>Будешь ли ты моей валентинкой?</h1>
+        <div class="btn-container">
+            <button id="yesBtn">Да 💘</button>
+            <button id="noBtn">Нет 😅</button>
+        </div>
     </div>
 
-    <img src="kroha.JPG" alt="Любовь">
-</div>
+    <div id="loveScreen" class="screen hidden">
+        <h1>Я знал, что ты скажешь да! 💖</h1>
+        <div class="love-text">
+            Моя Кроха…<br><br>
+            Ты делаешь мою жизнь светлее и счастливее. Спасибо тебе за твою нежность и за то, что ты просто есть у меня.<br><br>
+            Я хочу выбирать тебя снова и снова. ❤️
+        </div>
+        <img src="IMG_0071.jpeg" alt="Любовь">
+    </div>
 
 <script>
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const questionScreen = document.getElementById("questionScreen");
-const loveScreen = document.getElementById("loveScreen");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const questionScreen = document.getElementById("questionScreen");
+    const loveScreen = document.getElementById("loveScreen");
 
-let attempts = 0;
+    let yesScale = 1;
 
-noBtn.addEventListener("click", function() {
-    attempts++;
+    // Функция перемещения кнопки "Нет"
+    function moveButton() {
+        // Учитываем размеры экрана, чтобы кнопка не улетала за край
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        noBtn.style.transform = 'none'; // Убираем центровку при перемещении
 
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 60);
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-
-    if (attempts >= 5) {
-        noBtn.style.display = "none";
+        // С каждым разом кнопка "Да" становится больше, чтобы в неё было легче попасть
+        yesScale += 0.15;
+        yesBtn.style.transform = `scale(${yesScale})`;
     }
-});
 
-yesBtn.addEventListener("click", function() {
-    questionScreen.classList.add("hidden");
-    loveScreen.classList.remove("hidden");
-    createHearts();
-});
+    noBtn.addEventListener("mouseover", moveButton);
+    noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault(); // Чтобы на телефонах не срабатывал клик
+        moveButton();
+    });
 
-function createHearts() {
-    for (let i = 0; i < 40; i++) {
+    yesBtn.addEventListener("click", () => {
+        questionScreen.classList.add("hidden");
+        loveScreen.classList.remove("hidden");
+        // Запускаем дождь из сердечек
+        setInterval(createHeart, 250);
+    });
+
+    function createHeart() {
         const heart = document.createElement("div");
         heart.classList.add("heart");
-        heart.innerHTML = "💖";
+        const types = ["💖", "💝", "❤️", "💕", "✨"];
+        heart.innerHTML = types[Math.floor(Math.random() * types.length)];
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+        heart.style.opacity = Math.random() * 0.5 + 0.5;
         document.body.appendChild(heart);
+        
+        // Удаляем сердечко после завершения анимации
+        setTimeout(() => heart.remove(), 5000);
     }
-}
 </script>
 
 </body>
