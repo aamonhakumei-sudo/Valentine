@@ -5,45 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Моя Кроха 💖</title>
     <style>
+        :root {
+            --primary-pink: #ff2e82;
+            --soft-pink: #ff9ecf;
+        }
+
         body {
-            margin: 0; padding: 0; min-height: 100vh;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #ff9ecf, #ffc3e6);
-            display: flex; justify-content: center; align-items: center;
-            text-align: center; color: white;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--soft-pink), #ffc3e6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow-x: hidden;
+            color: white;
         }
-        .screen { width: 100%; max-width: 450px; padding: 20px; box-sizing: border-box; }
-        .hidden { display: none; }
-        h1 { font-size: 26px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-        
+
+        .screen {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: all 0.6s ease;
+        }
+
+        .hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
         /* Кнопки */
-        .btn-container { height: 120px; position: relative; margin-top: 20px; }
+        .btn-container {
+            height: 120px;
+            position: relative;
+            margin-top: 30px;
+        }
+
         button {
-            padding: 15px 30px; font-size: 18px; border: none; border-radius: 50px;
-            cursor: pointer; transition: 0.3s; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        #yesBtn { background: #ff2e82; color: white; }
-        #noBtn { background: white; color: #ff2e82; position: absolute; left: 50%; transform: translateX(-50%); }
-
-        /* Контент после "Да" */
-        img { width: 100%; max-width: 250px; border-radius: 20px; border: 5px solid white; margin: 15px 0; }
-        .info-block {
-            background: rgba(255, 255, 255, 0.2); padding: 15px;
-            border-radius: 15px; backdrop-filter: blur(5px); margin-bottom: 15px;
-        }
-        
-        /* Генератор комплиментов */
-        #complimentBtn { background: #ffffff; color: #ff2e82; font-size: 14px; padding: 10px 20px; margin-bottom: 10px; }
-        #complimentText { font-style: italic; font-weight: bold; min-height: 24px; margin-bottom: 10px; }
-
-        /* Карта */
-        .map-link {
-            display: block; color: white; text-decoration: none; font-size: 14px;
-            background: rgba(0, 0, 0, 0.1); padding: 10px; border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.2s, background 0.3s;
         }
 
-        .heart { position: fixed; top: -20px; animation: fall linear forwards; z-index: 100; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        #yesBtn { background: var(--primary-pink); color: white; z-index: 10; }
+        #noBtn { background: white; color: var(--primary-pink); position: absolute; left: 50%; transform: translateX(-50%); }
+
+        /* Контент второго экрана */
+        img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .love-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        #timer {
+            font-size: 1.1rem;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        .action-btn {
+            background: white;
+            color: var(--primary-pink);
+            font-size: 14px;
+            padding: 10px 20px;
+            margin: 5px;
+        }
+
+        /* Сердечки */
+        .heart {
+            position: fixed;
+            top: -20px;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 100;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -51,98 +115,100 @@
     <div id="questionScreen" class="screen">
         <h1>Моя Кроха 💕<br>Будешь моей валентинкой?</h1>
         <div class="btn-container">
-            <button id="yesBtn">Да 💘</button>
+            <button id="yesBtn">Да! 💘</button>
             <button id="noBtn">Нет 😅</button>
         </div>
     </div>
 
     <div id="loveScreen" class="screen hidden">
-        <h1>Я знал! Тебе не сбежать 💖</h1>
+        <h1>Я знал! 😍</h1>
         
-        <div class="info-block">
-            <div id="timer">Загружаю наши дни...</div>
-        </div>
-
-        <div class="info-block">
-            <div id="complimentText">Нажми на сердечко ниже 👇</div>
-            <button id="complimentBtn">❤️ Узнать секрет</button>
+        <div class="love-card">
+            <div id="timer">Загружаю наши моменты...</div>
+            <p>Ты — самое лучшее, что случилось со мной. Люблю тебя!</p>
         </div>
 
         <img src="IMG_0071.jpeg" alt="Наша любовь">
 
-        <div class="info-block">
-            <p style="margin: 0 0 10px 0;">Место нашей первой встречи: 📍</p>
-            <a href="https://www.google.com/maps/search/?api=1&query=45.035472,38.975313" target="_blank" class="map-link">
-                г. Краснодар, ул. Красная<br>(Открыть в картах)
-            </a>
+        <div style="margin-top: 20px;">
+            <button class="action-btn" onclick="showCompliment()">Почему я тебя люблю? ✨</button>
+            <button class="action-btn" onclick="openMap()" style="background: #4a90e2; color: white;">Наше место 📍</button>
         </div>
+        <p id="complimentText" style="margin-top: 15px; font-style: italic; min-height: 24px;"></p>
     </div>
 
 <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const complimentBtn = document.getElementById("complimentBtn");
-    const complimentText = document.getElementById("complimentText");
-    const timerElement = document.getElementById("timer");
+    const questionScreen = document.getElementById("questionScreen");
+    const loveScreen = document.getElementById("loveScreen");
 
-    // 1. Счетчик любви
-    const startDate = new Date('2023-12-24T00:00:00');
-    function updateTimer() {
-        const now = new Date();
-        const diff = now - startDate;
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        timerElement.innerHTML = `Мы счастливы вместе уже <br><span style="font-size: 24px;">${days}</span> дней!`;
-    }
-
-    // 2. Генератор комплиментов
-    const compliments = [
-        "Ты самая красивая! ✨",
-        "У тебя самая добрая улыбка ❤️",
-        "Я обожаю твой смех 🥰",
-        "Ты — моё самое большое счастье 💖",
-        "С тобой мир становится ярче 🌈",
-        "Ты самая нежная на свете 🌸",
-        "Я очень ценю, что ты у меня есть 💍",
-        "Ты — мой любимый человечек 🐥",
-        "Твои глаза светятся добротой ✨",
-        "Люблю тебя больше всех! 💘"
-    ];
-
-    complimentBtn.addEventListener("click", () => {
-        const randomComp = compliments[Math.floor(Math.random() * compliments.length)];
-        complimentText.innerText = randomComp;
-    });
-
-    // Логика кнопок
+    // 1. УБЕГАЮЩАЯ КНОПКА
     let yesScale = 1;
     function moveButton() {
         const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
         const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
         noBtn.style.position = 'fixed';
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-        yesScale += 0.2;
+        noBtn.style.left = x + 'px';
+        noBtn.style.top = y + 'px';
+        noBtn.style.transform = 'none';
+        
+        yesScale += 0.15;
         yesBtn.style.transform = `scale(${yesScale})`;
     }
 
     noBtn.addEventListener("mouseover", moveButton);
     noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); moveButton(); });
 
+    // 2. ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
     yesBtn.addEventListener("click", () => {
-        document.getElementById("questionScreen").classList.add("hidden");
-        document.getElementById("loveScreen").classList.remove("hidden");
+        questionScreen.classList.add("hidden");
+        loveScreen.classList.remove("hidden");
+        startHearts();
         updateTimer();
-        setInterval(createHeart, 300);
     });
 
-    function createHeart() {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 5000);
+    // 3. ТАЙМЕР (Укажи вашу дату тут)
+    const startDate = new Date('2023-09-01'); // ЗАМЕНИ ГОД-МЕСЯЦ-ДЕНЬ
+
+    function updateTimer() {
+        const now = new Date();
+        const diff = now - startDate;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById('timer').innerHTML = `Мы вместе уже ${days} счастливых дней! ❤️`;
+    }
+
+    // 4. ГЕНЕРАТОР КОМПЛИМЕНТОВ
+    const compliments = [
+        "У тебя самая красивая улыбка в мире!",
+        "Ты — моё главное вдохновение.",
+        "С тобой я чувствую себя по-настоящему дома.",
+        "Обожаю твой смех!",
+        "Ты делаешь меня лучше каждый день."
+    ];
+    function showCompliment() {
+        const text = compliments[Math.floor(Math.random() * compliments.length)];
+        document.getElementById('complimentText').innerText = text;
+    }
+
+    // 5. КАРТА (Твое место в Гайсине)
+    function openMap() {
+        // Ссылка на Google Maps по твоему Plus Code
+        window.open("https://www.google.com/maps/search/RC64%2B3Q3+Гайсин", "_blank");
+    }
+
+    // 6. СЕРДЕЧКИ
+    function startHearts() {
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = ["❤️", "💖", "💕", "💝"][Math.floor(Math.random() * 4)];
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+            heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }, 300);
     }
 </script>
 </body>
