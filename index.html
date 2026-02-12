@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Моя Кроха 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff9ecf, #ffc3e6);
+    text-align: center;
+}
+
+.container {
+    margin-top: 70px;
+    position: relative;
+}
+
+h1 {
+    color: white;
+    font-size: 26px;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s;
+}
+
+#yesBtn {
+    background: #ff2e82;
+    color: white;
+}
+
+#noBtn {
+    background: #444;
+    color: white;
+    position: absolute;
+}
+
+#result {
+    display: none;
+    margin-top: 25px;
+    color: white;
+    animation: fadeIn 1s ease-in-out;
+}
+
+#result img {
+    width: 280px;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.6);
+}
+
+.love-text {
+    max-width: 90%;
+    margin: 15px auto;
+    font-size: 18px;
+    line-height: 1.5;
+    animation: fadeInText 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.8);}
+    to {opacity: 1; transform: scale(1);}
+}
+
+@keyframes fadeInText {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    from { transform: translateY(-10vh); }
+    to { transform: translateY(110vh); }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Моя Кроха 💕<br><br>Будешь ли ты моей валентинкой?</h1>
+    <button id="yesBtn">Да 💘</button>
+    <button id="noBtn">Нет 😅</button>
+
+    <div id="result">
+        <h2>Я знал что ты скажешь да 💖</h2>
+
+        <div class="love-text">
+            Моя Кроха…<br><br>
+            Ты делаешь мою жизнь светлее, теплее и счастливее.<br>
+            С тобой каждый день становится особенным.<br><br>
+            Спасибо тебе за твою нежность, за твою улыбку и за то,
+            что ты просто есть у меня.<br><br>
+            Я хочу выбирать тебя снова и снова. ❤️
+        </div>
+
+        <img src="kroha.jpg" alt="Любовь">
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const result = document.getElementById("result");
+
+let attempts = 0;
+
+noBtn.addEventListener("click", function() {
+    attempts++;
+
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    if (attempts >= 5) {
+        noBtn.style.display = "none";
+    }
+});
+
+yesBtn.addEventListener("click", function() {
+    result.style.display = "block";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    createHearts();
+});
+
+function createHearts() {
+    for (let i = 0; i < 40; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(heart);
+    }
+}
+</script>
+
+</body>
+</html>
