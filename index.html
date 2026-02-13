@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,7 +42,7 @@
         #yesBtn { background: var(--primary-pink); color: white; z-index: 10; }
         #noBtn { background: white; color: var(--primary-pink); z-index: 5; }
 
-        /* СЛАЙДЕР (ФОТО ПОВНІСТЮ) */
+        /* СЛАЙДЕР */
         .slider-container {
             width: 100%; 
             height: 60vh; 
@@ -82,7 +82,7 @@
             font-size: 0.9rem; font-weight: bold; z-index: 1;
         }
 
-        /* ЧЕКОВА КНИЖКА */
+        /* ЧЕКОВАЯ КНИЖКА */
         .wishes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
         .wish-item {
             background: white; color: var(--primary-pink);
@@ -92,7 +92,8 @@
 
         .map-btn {
             background: #4a90e2; color: white; margin-top: 20px; 
-            font-size: 14px; width: 100%; border-radius: 15px;
+            font-size: 14px; width: 100%; border: none; padding: 12px; border-radius: 15px;
+            cursor: pointer; font-weight: bold;
         }
 
         .heart { position: fixed; top: -20px; pointer-events: none; animation: fall linear forwards; z-index: 99; }
@@ -102,18 +103,18 @@
 <body>
 
     <div id="questionScreen" class="screen">
-        <h1>Моя Кроха 💕<br>Будеш моєю валентинкою?</h1>
+        <h1>Моя Кроха 💕<br>Будешь моей валентинкой?</h1>
         <div class="btn-container">
-            <button id="yesBtn">Так! 💘</button>
-            <button id="noBtn">Ні 😅</button>
+            <button id="yesBtn">Да! 💘</button>
+            <button id="noBtn">Нет 😅</button>
         </div>
     </div>
 
     <div id="loveScreen" class="screen hidden">
-        <h1 style="margin-bottom:10px;">Я знав! 😍</h1>
+        <h1 style="margin-bottom:10px;">Я знал! 😍</h1>
         
         <div class="love-card">
-            <div id="timer">Завантаження...</div>
+            <div id="timer">Загрузка...</div>
         </div>
 
         <div class="slider-container" id="slider">
@@ -129,25 +130,25 @@
             <img src="IMG_0086.jpeg" class="slide">
         </div>
 
-        <p>✨ Зітри шар для тебе: ✨</p>
+        <p>✨ Сотри слой для тебя: ✨</p>
         <div class="scratch-container">
-            <div class="scratch-text">Ти сама найкраща бусичка на світі, мені з тобою шалено пощастило. Дякую що ти завжди обираєш мене ❤️</div>
+            <div class="scratch-text">Ты самая лучшая бусичка на свете, мне с тобой безумно повезло. Спасибо что ты всегда выбираешь меня ❤️</div>
             <canvas id="scratchCanvas" width="280" height="140"></canvas>
         </div>
 
-        <h3>Чекова книжка бажань 🎁</h3>
+        <h3>Чековая книжка желаний 🎁</h3>
         <div class="wishes-grid">
-            <div class="wish-item" onclick="activateWish(this)">Безкоштовний масаж</div>
-            <div class="wish-item" onclick="activateWish(this)">Купівля смаколиків</div>
-            <div class="wish-item" onclick="activateWish(this)">Зробити разом йогу</div>
-            <div class="wish-item" onclick="activateWish(this)">Морозиво під РеалітіШоу</div>
+            <div class="wish-item" onclick="activateWish(this)">Бесплатный массаж</div>
+            <div class="wish-item" onclick="activateWish(this)">Покупка вкусняшек</div>
+            <div class="wish-item" onclick="activateWish(this)">Сделать вместе йогу</div>
+            <div class="wish-item" onclick="activateWish(this)">Мороженое под РеалитиШоу</div>
             <div class="wish-item" onclick="activateWish(this)">Цьомик в лобик</div>
-            <div class="wish-item" onclick="activateWish(this)">Перегляд мультика</div>
-            <div class="wish-item" onclick="activateWish(this)">Кава в ліжко)</div>
+            <div class="wish-item" onclick="activateWish(this)">Просмотр мультика</div>
+            <div class="wish-item" onclick="activateWish(this)">Кофе в постель)</div>
         </div>
 
-        <button class="map-btn" onclick="window.open('https://www.google.com/maps/search/?api=1&query=RC64+2MP+Гайсин', '_blank')">
-            Наше особеное место 📍
+        <button class="map-btn" onclick="window.open('https://www.google.com/maps/search/RC64%2B2MP+Гайсин', '_blank')">
+            Наше особенное место 📍
         </button>
     </div>
 
@@ -187,12 +188,13 @@
         const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const m = Math.floor((diff / 1000 / 60) % 60);
         const s = Math.floor((diff / 1000) % 60);
-        document.getElementById('timer').innerHTML = `Ми разом:<br>${d}д : ${h}ч : ${m}м : ${s}с ❤️`;
+        document.getElementById('timer').innerHTML = `Мы вместе:<br>${d}д : ${h}ч : ${m}м : ${s}с ❤️`;
     }
 
     function startSlider() {
         const slides = document.querySelectorAll('.slide');
         let current = 0;
+        if(slides.length < 2) return;
         setInterval(() => {
             slides[current].classList.remove('active');
             current = (current + 1) % slides.length;
@@ -208,7 +210,7 @@
         ctx.fillStyle = '#666';
         ctx.font = 'bold 16px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText('Зітри мене ✨', 140, 75);
+        ctx.fillText('Сотри меня ✨', 140, 75);
 
         let isDrawing = false;
         function scratch(e) {
