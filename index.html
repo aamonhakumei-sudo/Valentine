@@ -8,7 +8,6 @@
         :root {
             --primary-pink: #ff2e82;
             --soft-pink: #ff9ecf;
-            --dark-pink: #e62673;
         }
 
         body {
@@ -22,69 +21,75 @@
         .screen { width: 100%; max-width: 500px; padding: 20px; box-sizing: border-box; }
         .hidden { display: none; }
 
-        h1 { font-size: 2rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.1); }
+        h1 { font-size: 1.8rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px; }
 
-        /* Кнопки */
-        .btn-container { height: 150px; position: relative; margin-top: 30px; }
+        /* КНОПКИ */
+        .btn-container { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 20px; 
+            min-height: 100px; 
+            position: relative; 
+        }
+
         button {
-            padding: 15px 30px; font-size: 18px; border: none; border-radius: 50px;
+            padding: 15px 25px; font-size: 18px; border: none; border-radius: 50px;
             cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, background 0.3s;
+            white-space: nowrap;
         }
-        #yesBtn { background: var(--primary-pink); color: white; position: relative; z-index: 10; }
-        #noBtn { background: white; color: var(--primary-pink); position: absolute; left: 50%; transform: translateX(-50%); }
 
-        /* Таймер и Карточки */
-        .love-card {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            padding: 20px; border-radius: 25px; margin: 20px 0;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        #timer { font-size: 1.2rem; font-weight: bold; line-height: 1.5; }
+        #yesBtn { background: var(--primary-pink); color: white; z-index: 10; }
+        #noBtn { background: white; color: var(--primary-pink); z-index: 5; }
 
-        /* Слайдер */
+        /* СЛАЙДЕР */
         .slider-container {
-            width: 100%; height: 300px; position: relative;
-            overflow: hidden; border-radius: 20px; border: 5px solid white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin: 20px 0;
+            width: 100%; 
+            height: 60vh; 
+            position: relative;
+            overflow: hidden; 
+            border-radius: 20px; 
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            margin: 20px 0;
+            background: rgba(255,255,255,0.1);
         }
         .slide {
-            width: 100%; height: 100%; object-fit: cover;
-            position: absolute; opacity: 0; transition: opacity 0.8s ease;
+            width: 100%; height: 100%; 
+            object-fit: contain; 
+            position: absolute; left: 0; top: 0; 
+            opacity: 0; transition: opacity 0.8s ease;
         }
         .slide.active { opacity: 1; }
 
-        /* Стирашка */
-        .scratch-container {
-            position: relative; width: 300px; height: 150px;
-            margin: 20px auto; user-select: none;
+        .love-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 15px; border-radius: 20px; margin: 15px 0;
         }
+
+        .scratch-container {
+            position: relative; width: 280px; height: 140px;
+            margin: 20px auto; touch-action: none;
+        }
+        canvas { border-radius: 15px; cursor: crosshair; position: absolute; top: 0; left: 0; }
         .scratch-text {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center;
             background: white; color: var(--primary-pink);
+            display: flex; align-items: center; justify-content: center;
             border-radius: 15px; padding: 15px; box-sizing: border-box;
             font-size: 0.9rem; font-weight: bold;
         }
-        canvas {
-            position: absolute; top: 0; left: 0; cursor: crosshair;
-            border-radius: 15px; touch-action: none;
-        }
 
-        /* Чековая книжка */
-        .wishes-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;
-        }
+        .wishes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
         .wish-item {
             background: white; color: var(--primary-pink);
-            padding: 10px; border-radius: 15px; font-size: 0.85rem;
-            cursor: pointer; transition: 0.3s; font-weight: bold;
-            display: flex; align-items: center; justify-content: center;
+            padding: 10px 5px; border-radius: 12px; font-size: 0.75rem;
+            cursor: pointer; font-weight: bold; transition: 0.3s;
         }
-        .wish-item:active { transform: scale(0.95); background: var(--primary-pink); color: white; }
 
-        .heart { position: fixed; top: -20px; pointer-events: none; animation: fall linear forwards; z-index: 100; }
+        .heart { position: fixed; top: -20px; pointer-events: none; animation: fall linear forwards; z-index: 99; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
 </head>
@@ -99,10 +104,10 @@
     </div>
 
     <div id="loveScreen" class="screen hidden">
-        <h1>Я знал! 😍</h1>
+        <h1 style="margin-bottom:10px;">Я знал! 😍</h1>
         
         <div class="love-card">
-            <div id="timer">Считаю наше время...</div>
+            <div id="timer">Загрузка...</div>
         </div>
 
         <div class="slider-container" id="slider">
@@ -118,76 +123,69 @@
             <img src="IMG_0086.jpeg" class="slide">
         </div>
 
-        <p>✨ Сотри слой, тут кое-что важное: ✨</p>
+        <p>✨ Сотри слой для тебя: ✨</p>
         <div class="scratch-container">
             <div class="scratch-text">Ты самая лучшая бусичка на свете, мне с тобой безумно повезло. Спасибо что ты всегда выбираешь меня ❤️</div>
-            <canvas id="scratchCanvas" width="300" height="150"></canvas>
+            <canvas id="scratchCanvas" width="280" height="140"></canvas>
         </div>
 
-        <h3>Твоя чековая книжка желаний 🎁</h3>
+        <h3>Чековая книжка желаний 🎁</h3>
         <div class="wishes-grid">
             <div class="wish-item" onclick="activateWish(this)">Бесплатный массаж</div>
             <div class="wish-item" onclick="activateWish(this)">Покупка вкусняшек</div>
             <div class="wish-item" onclick="activateWish(this)">Сделать вместе йогу</div>
             <div class="wish-item" onclick="activateWish(this)">Мороженое под РеалитиШоу</div>
             <div class="wish-item" onclick="activateWish(this)">Цьомик в лобик</div>
-            <div class="wish-item" onclick="activateWish(this)">Просмотр любого мультика</div>
             <div class="wish-item" onclick="activateWish(this)">Кофе в постель)</div>
         </div>
-
-        <button onclick="window.open('http://maps.google.com/?q=Gaisyn', '_blank')" 
-                style="background: #4a90e2; color: white; margin-top: 30px; font-size: 14px;">
-            Наше место 📍
-        </button>
     </div>
 
 <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const questionScreen = document.getElementById("questionScreen");
-    const loveScreen = document.getElementById("loveScreen");
 
-    // 1. УБЕГАЮЩАЯ КНОПКА
-    let yesScale = 1;
+    // ЛОГИКА КНОПКИ "НЕТ"
     function moveButton() {
+        noBtn.style.position = 'fixed';
         const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
         const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-        noBtn.style.position = 'fixed';
         noBtn.style.left = x + 'px';
         noBtn.style.top = y + 'px';
-        yesScale += 0.15;
-        yesBtn.style.transform = `scale(${yesScale})`;
+        
+        const currentScale = parseFloat(yesBtn.style.transform.replace('scale(', '')) || 1;
+        yesBtn.style.transform = `scale(${currentScale + 0.15})`;
     }
+
     noBtn.addEventListener("mouseover", moveButton);
     noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); moveButton(); });
 
-    // 2. ПЕРЕКЛЮЧЕНИЕ
     yesBtn.addEventListener("click", () => {
-        questionScreen.classList.add("hidden");
-        loveScreen.classList.remove("hidden");
+        document.getElementById("questionScreen").classList.add("hidden");
+        document.getElementById("loveScreen").classList.remove("hidden");
         startHearts();
+        updateTimer();
         setInterval(updateTimer, 1000);
         initScratch();
         startSlider();
     });
 
-    // 3. УЛУЧШЕННЫЙ ТАЙМЕР
+    // ТАЙМЕР
     const startDate = new Date('2023-12-24'); 
     function updateTimer() {
         const now = new Date();
         const diff = now - startDate;
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const mins = Math.floor((diff / 1000 / 60) % 60);
-        const secs = Math.floor((diff / 1000) % 60);
-        document.getElementById('timer').innerHTML = 
-            `Мы вместе уже:<br><b>${days}д : ${hours}ч : ${mins}м : ${secs}с</b><br>счастливых моментов ❤️`;
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / 1000 / 60) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        document.getElementById('timer').innerHTML = `Мы вместе:<br>${d}д : ${h}ч : ${m}м : ${s}с ❤️`;
     }
 
-    // 4. СЛАЙДЕР
+    // СЛАЙДЕР
     function startSlider() {
         const slides = document.querySelectorAll('.slide');
         let current = 0;
+        if(slides.length < 2) return;
         setInterval(() => {
             slides[current].classList.remove('active');
             current = (current + 1) % slides.length;
@@ -195,58 +193,53 @@
         }, 3000);
     }
 
-    // 5. СТИРАШКА
+    // СТИРАШКА
     function initScratch() {
         const canvas = document.getElementById('scratchCanvas');
         const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ccc';
+        ctx.fillStyle = '#c0c0c0';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#999';
-        ctx.font = '20px Arial';
+        ctx.fillStyle = '#666';
+        ctx.font = 'bold 16px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText('Стри тут... ✨', 150, 85);
+        ctx.fillText('Сотри меня ✨', 140, 75);
 
         let isDrawing = false;
         function scratch(e) {
             if (!isDrawing) return;
+            e.preventDefault();
             const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX || e.touches[0].clientX) - rect.left;
-            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+            const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
             ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath();
-            ctx.arc(x, y, 20, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
         }
         canvas.addEventListener('mousedown', () => isDrawing = true);
-        canvas.addEventListener('mouseup', () => isDrawing = false);
+        window.addEventListener('mouseup', () => isDrawing = false);
         canvas.addEventListener('mousemove', scratch);
-        canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
-        canvas.addEventListener('touchend', () => isDrawing = false);
         canvas.addEventListener('touchmove', scratch);
+        canvas.addEventListener('touchstart', () => isDrawing = true);
     }
 
-    // 6. ЧЕКОВАЯ КНИЖКА
     function activateWish(el) {
         if(!el.innerText.includes('✅')) {
             el.style.background = '#4CAF50';
             el.style.color = 'white';
             el.innerText = '✅ ' + el.innerText;
-            alert('Желание принято! Исполню в ближайшее время ❤️');
         }
     }
 
-    // 7. СЕРДЕЧКИ
     function startHearts() {
         setInterval(() => {
-            const heart = document.createElement("div");
-            heart.classList.add("heart");
-            heart.innerHTML = ["❤️", "💖", "💕", "💝"][Math.floor(Math.random() * 4)];
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.fontSize = (Math.random() * 20 + 20) + "px";
-            heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
-        }, 300);
+            const h = document.createElement("div");
+            h.classList.add("heart");
+            h.innerHTML = "❤️";
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.fontSize = (Math.random() * 20 + 20) + "px";
+            h.style.animationDuration = (Math.random() * 2 + 3) + "s";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }, 400);
     }
 </script>
 </body>
