@@ -8,106 +8,84 @@
         :root {
             --primary-pink: #ff2e82;
             --soft-pink: #ff9ecf;
+            --dark-pink: #e62673;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0; min-height: 100vh;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, var(--soft-pink), #ffc3e6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow-x: hidden;
-            color: white;
+            display: flex; justify-content: center; align-items: center;
+            text-align: center; color: white; overflow-x: hidden;
         }
 
-        .screen {
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
-            box-sizing: border-box;
-            transition: all 0.6s ease;
-        }
+        .screen { width: 100%; max-width: 500px; padding: 20px; box-sizing: border-box; }
+        .hidden { display: none; }
 
-        .hidden {
-            display: none;
-            opacity: 0;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
+        h1 { font-size: 2rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.1); }
 
         /* Кнопки */
-        .btn-container {
-            height: 120px;
-            position: relative;
-            margin-top: 30px;
-        }
-
+        .btn-container { height: 150px; position: relative; margin-top: 30px; }
         button {
-            padding: 15px 30px;
-            font-size: 18px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            transition: transform 0.2s, background 0.3s;
+            padding: 15px 30px; font-size: 18px; border: none; border-radius: 50px;
+            cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
         }
-
-        #yesBtn { background: var(--primary-pink); color: white; z-index: 10; }
+        #yesBtn { background: var(--primary-pink); color: white; position: relative; z-index: 10; }
         #noBtn { background: white; color: var(--primary-pink); position: absolute; left: 50%; transform: translateX(-50%); }
 
-        /* Контент второго экрана */
-        img {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 20px;
-            margin: 20px 0;
-            border: 5px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
+        /* Таймер и Карточки */
         .love-card {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 20px;
+            padding: 20px; border-radius: 25px; margin: 20px 0;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        #timer { font-size: 1.2rem; font-weight: bold; line-height: 1.5; }
+
+        /* Слайдер */
+        .slider-container {
+            width: 100%; height: 300px; position: relative;
+            overflow: hidden; border-radius: 20px; border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin: 20px 0;
+        }
+        .slide {
+            width: 100%; height: 100%; object-fit: cover;
+            position: absolute; opacity: 0; transition: opacity 0.8s ease;
+        }
+        .slide.active { opacity: 1; }
+
+        /* Стирашка */
+        .scratch-container {
+            position: relative; width: 300px; height: 150px;
+            margin: 20px auto; user-select: none;
+        }
+        .scratch-text {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background: white; color: var(--primary-pink);
+            border-radius: 15px; padding: 15px; box-sizing: border-box;
+            font-size: 0.9rem; font-weight: bold;
+        }
+        canvas {
+            position: absolute; top: 0; left: 0; cursor: crosshair;
+            border-radius: 15px; touch-action: none;
         }
 
-        #timer {
-            font-size: 1.1rem;
-            margin: 15px 0;
-            font-weight: 600;
+        /* Чековая книжка */
+        .wishes-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;
         }
+        .wish-item {
+            background: white; color: var(--primary-pink);
+            padding: 10px; border-radius: 15px; font-size: 0.85rem;
+            cursor: pointer; transition: 0.3s; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .wish-item:active { transform: scale(0.95); background: var(--primary-pink); color: white; }
 
-        .action-btn {
-            background: white;
-            color: var(--primary-pink);
-            font-size: 14px;
-            padding: 10px 20px;
-            margin: 5px;
-        }
-
-        /* Сердечки */
-        .heart {
-            position: fixed;
-            top: -20px;
-            pointer-events: none;
-            animation: fall linear forwards;
-            z-index: 100;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
+        .heart { position: fixed; top: -20px; pointer-events: none; animation: fall linear forwards; z-index: 100; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -124,17 +102,37 @@
         <h1>Я знал! 😍</h1>
         
         <div class="love-card">
-            <div id="timer">Загружаю наши моменты...</div>
-            <p>Ты — самое лучшее, что случилось со мной. Люблю тебя!</p>
+            <div id="timer">Считаю наше время...</div>
         </div>
 
-        <img src="IMG_0071.jpeg" alt="Наша любовь">
-
-        <div style="margin-top: 20px;">
-            <button class="action-btn" onclick="showCompliment()">Почему я тебя люблю? ✨</button>
-            <button class="action-btn" onclick="openMap()" style="background: #4a90e2; color: white;">Наше место 📍</button>
+        <div class="slider-container" id="slider">
+            <img src="photo1.jpg" class="slide active">
+            <img src="photo2.jpg" class="slide">
+            <img src="photo3.jpg" class="slide">
+            <img src="photo4.jpg" class="slide">
         </div>
-        <p id="complimentText" style="margin-top: 15px; font-style: italic; min-height: 24px;"></p>
+
+        <p>✨ Сотри слой, тут кое-что важное: ✨</p>
+        <div class="scratch-container">
+            <div class="scratch-text">Ты самая лучшая бусичка на свете, мне с тобой безумно повезло. Спасибо что ты всегда выбираешь меня ❤️</div>
+            <canvas id="scratchCanvas" width="300" height="150"></canvas>
+        </div>
+
+        <h3>Твоя чековая книжка желаний 🎁</h3>
+        <div class="wishes-grid">
+            <div class="wish-item" onclick="activateWish(this)">Бесплатный массаж</div>
+            <div class="wish-item" onclick="activateWish(this)">Покупка вкусняшек</div>
+            <div class="wish-item" onclick="activateWish(this)">Сделать вместе йогу</div>
+            <div class="wish-item" onclick="activateWish(this)">Мороженое под РеалитиШоу</div>
+            <div class="wish-item" onclick="activateWish(this)">Цьомик в лобик</div>
+            <div class="wish-item" onclick="activateWish(this)">Просмотр любого мультика</div>
+            <div class="wish-item" onclick="activateWish(this)">Кофе в постель)</div>
+        </div>
+
+        <button onclick="window.open('http://maps.google.com/?q=Gaisyn', '_blank')" 
+                style="background: #4a90e2; color: white; margin-top: 30px; font-size: 14px;">
+            Наше место 📍
+        </button>
     </div>
 
 <script>
@@ -151,53 +149,87 @@
         noBtn.style.position = 'fixed';
         noBtn.style.left = x + 'px';
         noBtn.style.top = y + 'px';
-        noBtn.style.transform = 'none';
-        
         yesScale += 0.15;
         yesBtn.style.transform = `scale(${yesScale})`;
     }
-
     noBtn.addEventListener("mouseover", moveButton);
     noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); moveButton(); });
 
-    // 2. ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
+    // 2. ПЕРЕКЛЮЧЕНИЕ
     yesBtn.addEventListener("click", () => {
         questionScreen.classList.add("hidden");
         loveScreen.classList.remove("hidden");
         startHearts();
-        updateTimer();
+        setInterval(updateTimer, 1000);
+        initScratch();
+        startSlider();
     });
 
-    // 3. ТАЙМЕР (Укажи вашу дату тут)
-    const startDate = new Date('2023-12-24'); // ЗАМЕНИ ГОД-МЕСЯЦ-ДЕНЬ
-
+    // 3. УЛУЧШЕННЫЙ ТАЙМЕР
+    const startDate = new Date('2023-12-24'); 
     function updateTimer() {
         const now = new Date();
         const diff = now - startDate;
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        document.getElementById('timer').innerHTML = `Мы вместе уже ${days} счастливых дней! ❤️`;
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / 1000 / 60) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+        document.getElementById('timer').innerHTML = 
+            `Мы вместе уже:<br><b>${days}д : ${hours}ч : ${mins}м : ${secs}с</b><br>счастливых моментов ❤️`;
     }
 
-    // 4. ГЕНЕРАТОР КОМПЛИМЕНТОВ
-    const compliments = [
-        "У тебя самая красивая улыбка в мире!",
-        "Ты — моё главное вдохновение.",
-        "С тобой я чувствую себя по-настоящему дома.",
-        "Обожаю твой смех!",
-        "Ты делаешь меня лучше каждый день."
-    ];
-    function showCompliment() {
-        const text = compliments[Math.floor(Math.random() * compliments.length)];
-        document.getElementById('complimentText').innerText = text;
+    // 4. СЛАЙДЕР
+    function startSlider() {
+        const slides = document.querySelectorAll('.slide');
+        let current = 0;
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 3000);
     }
 
-    // 5. КАРТА (Твое место в Гайсине)
-    function openMap() {
-        // Ссылка на Google Maps по твоему Plus Code
-        window.open("https://www.google.com/maps/search/RC64%2B3Q3+Гайсин", "_blank");
+    // 5. СТИРАШКА
+    function initScratch() {
+        const canvas = document.getElementById('scratchCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ccc';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#999';
+        ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Стри тут... ✨', 150, 85);
+
+        let isDrawing = false;
+        function scratch(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 20, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mousemove', scratch);
+        canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+        canvas.addEventListener('touchend', () => isDrawing = false);
+        canvas.addEventListener('touchmove', scratch);
     }
 
-    // 6. СЕРДЕЧКИ
+    // 6. ЧЕКОВАЯ КНИЖКА
+    function activateWish(el) {
+        if(!el.innerText.includes('✅')) {
+            el.style.background = '#4CAF50';
+            el.style.color = 'white';
+            el.innerText = '✅ ' + el.innerText;
+            alert('Желание принято! Исполню в ближайшее время ❤️');
+        }
+    }
+
+    // 7. СЕРДЕЧКИ
     function startHearts() {
         setInterval(() => {
             const heart = document.createElement("div");
@@ -213,4 +245,3 @@
 </script>
 </body>
 </html>
-
